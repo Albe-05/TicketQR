@@ -24,9 +24,7 @@ import com.google.zxing.Result;
 public class MainActivity extends AppCompatActivity {
     private final int CAMERA_REQUEST_CODE = 101;
     private CodeScanner codeScanner;
-
     private boolean isConnect = false;
-
     Button button;
 
     @Override
