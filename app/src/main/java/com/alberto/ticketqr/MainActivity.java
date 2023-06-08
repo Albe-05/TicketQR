@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     //---SCANNING---
     private void codeScanner(){
-        TextView textView = findViewById(R.id.tv_textView);
+        //TextView textView = findViewById(R.id.tv_textView);
 
         codeScanner = new CodeScanner(this, findViewById(R.id.scanner_view));
 
@@ -61,16 +60,22 @@ public class MainActivity extends AppCompatActivity {
         codeScanner.setAutoFocusEnabled(true);
         codeScanner.setFlashEnabled(false);
 
-        codeScanner.setDecodeCallback(new DecodeCallback() { //TODO: OnDecode()
+        codeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
-                
+                Intent intent = new Intent(MainActivity.this, Response.class);
+                intent.putExtra("CODE", result.getText());
+                startActivity(intent);
+
+                /*
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         textView.setText(result.getText());
                     }
                 });
+
+                 */
             }
         });
 
@@ -96,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
 
             switch (getIntent().getStringExtra("FROM")){
                 case "SETTINGS": isConnect = getIntent().getBooleanExtra("STATE", false);
+                    break;
+                case "RESPONSE": isConnect = true;
+                    break;
+                default:
             }
         }
         
