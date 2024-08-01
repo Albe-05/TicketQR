@@ -3,6 +3,7 @@ package com.alberto.ticketqr;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private CodeScanner codeScanner;
     private boolean isConnect = false;
     Button button;
+
+    private String IP_address = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +66,18 @@ public class MainActivity extends AppCompatActivity {
         codeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
+                /* //verso la seconda activity
                 Intent intent = new Intent(MainActivity.this, Response.class);
                 intent.putExtra("CODE", result.getText());
                 startActivity(intent);
+
+                 */
+
+                //http://localhost/scanqr.php?codice=f0c39e&scan=Verifica
+                String url = "http://" + IP_address + "/scanqr.php?codice="
+                        + result.getText() +  "&scan=Verifica";
+
+                openWebPage(url);
 
                 /*
                 runOnUiThread(new Runnable() {
@@ -101,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
             switch (getIntent().getStringExtra("FROM")){
                 case "SETTINGS": isConnect = getIntent().getBooleanExtra("STATE", false);
+                    IP_address = getIntent().getStringExtra("IP");
                     break;
                 case "RESPONSE": isConnect = true;
                     break;
@@ -148,5 +161,15 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Grazie", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    //apre il browser con il codice già scritto nell'URL
+    public void openWebPage(String url) {
+        // Create an intent with the ACTION_VIEW action
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+
+        // Set the data (the URL) for the intent
+        intent.setDataAndNormalize(Uri.parse(url));
+        startActivity(intent);
     }
 }

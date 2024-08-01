@@ -25,6 +25,6 @@
         android:ems="10"
         android:textSize="25sp"
         android:inputType="text"
-        android:text="Server IP" />
+        android:text="192.168.204.207" />
 
 </RelativeLayout>

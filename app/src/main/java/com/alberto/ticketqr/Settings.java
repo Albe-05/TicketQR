@@ -31,6 +31,7 @@ public class Settings extends AppCompatActivity {
                 //assumiamo il server sia corretto, quindi procediamo,
                 Intent intent = new Intent(Settings.this, MainActivity.class);
                 intent.putExtra("FROM", "SETTINGS");
+                intent.putExtra("IP", inputText.getText().toString());
                 intent.putExtra("STATE", true); //MainActivity può controllare che la connessione sia funzionante
                 startActivity(intent);
                 finish(); //non si può tornare a questa activity, si chiude l'app
